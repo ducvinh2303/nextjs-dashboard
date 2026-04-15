@@ -1,18 +1,37 @@
+import type { Metadata } from 'next';
 import Form from '@/app/ui/invoices/edit-form';
 import Breadcrumbs from '@/app/ui/invoices/breadcrumbs';
 import { fetchInvoiceById, fetchCustomers } from '@/app/lib/data';
 import { notFound } from 'next/navigation';
-import { Metadata } from 'next';
 
-export const metadata: Metadata = {
-  title: 'Edit Invoice',
+type Props = {
+  params: Promise<{ id: string }>;
 };
 
-export default async function Page(props: {
-  params: Promise<{ id: string }>;
-}) {
-  const params = await props.params;
-  const id = params.id;
+export async function generateMetadata({ params }: Props): Promise<Metadata> {
+  const { id } = await params;
+
+  return {
+    title: 'Edit Invoice',
+    description: 'Edit an existing invoice in the Acme Dashboard.',
+    robots: {
+      index: false,
+      follow: false,
+    },
+    alternates: {
+      canonical: `/dashboard/invoices/${id}/edit`,
+    },
+    openGraph: {
+      title: 'Edit Invoice | Acme Dashboard',
+      description: 'Edit an existing invoice in the Acme Dashboard.',
+      url: `/dashboard/invoices/${id}/edit`,
+      images: ['/opengraph-image.png'],
+    },
+  };
+}
+
+export default async function Page({ params }: Props) {
+  const { id } = await params;
 
   const [invoice, customers] = await Promise.all([
     fetchInvoiceById(id),
