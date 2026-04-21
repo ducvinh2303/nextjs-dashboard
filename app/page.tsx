@@ -1,6 +1,17 @@
 import type { Metadata } from 'next';
 import './globals.css';
+interface WebVitalsMetric {
+  id: string;
+  name: string;
+  value: number;
+  label: 'web-vitals' | 'custom';
+  delta?: number;
+  entries?: PerformanceEntry[];
+}
 
+export function reportWebVitals(metric: WebVitalsMetric) {
+  console.log(metric);
+}
 export const metadata: Metadata = {
   title: {
     template: '%s | Acme Dashboard',
