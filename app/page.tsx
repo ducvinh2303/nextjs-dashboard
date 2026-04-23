@@ -12,14 +12,15 @@ export default function Page() {
       </div>
       <div className="mt-4 flex grow flex-col gap-4 md:flex-row">
         <div className="flex flex-col justify-center gap-6 rounded-lg bg-gray-50 px-6 py-10 md:w-2/5 md:px-20">
-          <p
-            className={`${lusitana.className} text-xl text-gray-800 md:text-3xl md:leading-normal`}
-          >
-            <strong>Welcome to Acme.</strong> This is the example for the{' '}
-            <a href="https://nextjs.org/learn/" className="text-blue-500">
-              Next.js Learn Course
+          <p className="text-xl text-gray-800 md:text-3xl md:leading-normal">
+            <strong>Welcome to My Dashboard.</strong> This is my dashboard project
+            built with Next.js, featuring authentication, database integration, and
+            dynamic data visualization.
+          </p>
+          <p className="mt-4 text-blue-500 text-lg md:text-xl hover:underline">
+            <a href="https://ducvinh-portfolio.vercel.app" target="_blank">
+              🌐 View my portfolio
             </a>
-            , brought to you by Vercel.
           </p>
           <Link
             href="/login"
@@ -48,6 +49,9 @@ export default function Page() {
           />
         </div>
       </div>
+      <p className="text-sm text-gray-500">
+        Built by Duc Vinh Vu
+      </p>
     </main>
   );
 }
