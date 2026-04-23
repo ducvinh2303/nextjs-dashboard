@@ -1,6 +1,6 @@
 import type { Metadata } from 'next';
 import './globals.css';
-
+<html lang="en" suppressHydrationWarning></html>
 export const metadata: Metadata = {
   title: {
     template: '%s | Acme Dashboard',
@@ -32,7 +32,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html lang="en">
+    <html lang="en" suppressHydrationWarning>      
       <body>{children}</body>
     </html>
   );
