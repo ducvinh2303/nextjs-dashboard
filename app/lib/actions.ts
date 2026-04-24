@@ -7,6 +7,9 @@ import { redirect } from 'next/navigation';
 import { randomUUID } from 'crypto';
 import { signIn } from '@/auth';
 import { AuthError } from 'next-auth';
+revalidatePath('/dashboard');
+revalidatePath('/dashboard/invoices');
+revalidatePath('/dashboard/customers');
 
 const sql = postgres(process.env.POSTGRES_URL!, { ssl: 'require' });
 
