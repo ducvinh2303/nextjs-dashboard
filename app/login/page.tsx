@@ -1,7 +1,6 @@
 import type { Metadata } from 'next';
 import AcmeLogo from '@/app/ui/acme-logo';
 import LoginForm from '@/app/ui/login-form';
-import { lusitana } from '@/app/ui/fonts';
 import { Suspense } from 'react';
 
 export const metadata: Metadata = {
@@ -18,15 +17,9 @@ export default function Page() {
           </div>
         </div>
 
-        <div className="rounded-lg bg-gray-50 px-6 pb-4 pt-8">
-          <h1 className={`${lusitana.className} mb-3 text-2xl`}>
-            Please log in to continue.
-          </h1>
-
-          <Suspense fallback={<div>Loading...</div>}>
-            <LoginForm />
-          </Suspense>
-        </div>
+        <Suspense fallback={<div>Loading...</div>}>
+          <LoginForm />
+        </Suspense>
       </div>
     </main>
   );
