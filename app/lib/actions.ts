@@ -7,9 +7,6 @@ import { redirect } from 'next/navigation';
 import { randomUUID } from 'crypto';
 import { signIn } from '@/auth';
 import { AuthError } from 'next-auth';
-revalidatePath('/dashboard');
-revalidatePath('/dashboard/invoices');
-revalidatePath('/dashboard/customers');
 
 const sql = postgres(process.env.POSTGRES_URL!, { ssl: 'require' });
 
@@ -39,6 +36,12 @@ export type State = {
   message?: string | null;
 };
 
+function revalidateDashboardRoutes() {
+  revalidatePath('/dashboard');
+  revalidatePath('/dashboard/invoices');
+  revalidatePath('/dashboard/customers');
+}
+
 export async function createInvoice(prevState: State, formData: FormData) {
   const validatedFields = CreateInvoice.safeParse({
     customerId: formData.get('customerId'),
@@ -55,7 +58,7 @@ export async function createInvoice(prevState: State, formData: FormData) {
 
   const { customerId, amount, status } = validatedFields.data;
   const id = randomUUID();
-  const amountInCents = amount * 100;
+  const amountInCents = Math.round(amount * 100);
   const date = new Date().toISOString().split('T')[0];
 
   try {
@@ -70,7 +73,7 @@ export async function createInvoice(prevState: State, formData: FormData) {
     };
   }
 
-  revalidatePath('/dashboard/invoices');
+  revalidateDashboardRoutes();
   redirect('/dashboard/invoices');
 }
 
@@ -93,7 +96,7 @@ export async function updateInvoice(
   }
 
   const { customerId, amount, status } = validatedFields.data;
-  const amountInCents = amount * 100;
+  const amountInCents = Math.round(amount * 100);
 
   try {
     await sql`
@@ -108,14 +111,14 @@ export async function updateInvoice(
     };
   }
 
-  revalidatePath('/dashboard/invoices');
+  revalidateDashboardRoutes();
   redirect('/dashboard/invoices');
 }
 
 export async function deleteInvoice(id: string): Promise<void> {
   try {
     await sql`DELETE FROM invoices WHERE id = ${id}`;
-    revalidatePath('/dashboard/invoices');
+    revalidateDashboardRoutes();
   } catch (error) {
     console.error(error);
     throw new Error('Failed to Delete Invoice');
